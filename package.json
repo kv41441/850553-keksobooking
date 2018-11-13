@@ -1,6 +1,6 @@
 {
   "name": "keksobooking",
-  "version": "15.0.0",
+  "version": "16.0.0",
   "private": true,
   "description": "Личный проект «Кексобукинг» от HTML Academy",
   "repository": {
@@ -20,6 +20,6 @@
     "test": "eslint js/"
   },
   "engines": {
-    "node": "8.11"
+    "node": "8.12"
   }
 }
