@@ -15,7 +15,7 @@ var PRICE_MIN = 1000;
 var PRICE_MAX = 1000000;
 var ROOMS_MAX = 5;
 var GUESTS_MAX = 10;
-var LOCATION_X_MIN = 100;
+var LOCATION_X_MIN = 170;
 var LOCATION_X_MAX = document.querySelector('.map__pins').clientHeight;
 var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
@@ -145,12 +145,23 @@ var createOfferInfo = function (completeOffer) {
     ' комнаты для ' + completeOffer.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' +
     completeOffer.offer.checkin + ', выезд до ' + completeOffer.offer.checkout;
-  cardElement.querySelector('.popup__features').textContent = completeOffer.offer.features;
+
+  cardElement.querySelector('.popup__features').textContent = '';
+  completeOffer.offer.features.forEach(function (item) {
+    var featureSelector = 'popup__feature--' + item;
+    var cardFeatureElement = card.querySelector('.popup__feature').cloneNode(true);
+
+    cardFeatureElement.classList.remove('popup__feature--wifi');
+    cardFeatureElement.classList.add(featureSelector);
+    cardElement.querySelector('.popup__features').appendChild(cardFeatureElement);
+  });
+
   cardElement.querySelector('.popup__description').textContent = completeOffer.offer.description;
 
   cardElement.querySelector('.popup__photo').src = completeOffer.offer.photos[0];
   for (var i = 1; i < completeOffer.offer.photos.length; i++) {
     var cardImageElement = card.querySelector('.popup__photo').cloneNode(true);
+
     cardImageElement.src = completeOffer.offer.photos[i];
     cardElement.querySelector('.popup__photos').appendChild(cardImageElement);
   }
