@@ -21,7 +21,7 @@ var LOCATION_Y_MIN = 130;
 var LOCATION_Y_MAX = 630;
 var offerLocation = {};
 var mapPinListElement = document.querySelector('.map__pins');
-var cardElement = document.querySelector('.map');
+var newCard = document.querySelector('.map');
 var filtersContainer = document.querySelector('.map__filters-container');
 
 
@@ -36,9 +36,9 @@ var getRandomElement = function (array) {
   return randIndex;
 };
 
-var createAuthor = function (avatar_index) {
-  var author = avatar_index < 10 ? { avatar: 'img/avatars/user' + '0' + avatar_index + '.png' }
-    : { avatar: 'img/avatars/user' + avatar_index + '.png' }
+var createAuthor = function (avatarIndex) {
+  var author = avatarIndex < 10 ? {avatar: 'img/avatars/user' + '0' + avatarIndex + '.png'}
+    : {avatar: 'img/avatars/user' + avatarIndex + '.png'};
 
   return author;
 };
@@ -68,7 +68,7 @@ var createOffer = function () {
     features: offerFeatures,
     description: '',
     photos: photos.sort(randomizeArray)
-  }
+  };
 
   return offer;
 };
@@ -77,24 +77,24 @@ var createLocation = function () {
   var location = {
     x: Math.floor(Math.random() * (LOCATION_X_MAX - LOCATION_X_MIN + 1) + LOCATION_X_MIN),
     y: Math.floor(Math.random() * (LOCATION_Y_MAX - LOCATION_Y_MIN + 1) + LOCATION_Y_MIN)
-  }
+  };
 
   return location;
 };
 
 var createCompleteOffer = function (count) {
-  var avatar_index;
+  var avatarIndex;
   completeOffers = [];
 
   for (var i = 1; i <= count; i++) {
     offerLocation = createLocation();
-    avatar_index = i;
+    avatarIndex = i;
 
     var completeOffer = {
-      author: createAuthor(avatar_index),
+      author: createAuthor(avatarIndex),
       offer: createOffer(),
       location: offerLocation
-    }
+    };
 
     completeOffers.push(completeOffer);
   }
@@ -178,6 +178,6 @@ var renderOfferInfo = function () {
     fragment.appendChild(createOfferInfo(completeOffers[0]));
   });
 
-  cardElement.insertBefore(fragment, filtersContainer);
+  newCard.insertBefore(fragment, filtersContainer);
 };
 renderOfferInfo();
