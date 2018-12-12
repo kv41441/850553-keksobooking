@@ -32,14 +32,16 @@ var getRandomElement = function (array) {
 };
 
 var randomizeArray = function (array) {
-  for (var i = array.length - 1; i > 0; i--) {
+  var newArray = array.slice();
+
+  for (var i = newArray.length - 1; i > 0; i--) {
     var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+    var temp = newArray[i];
+    newArray[i] = newArray[j];
+    newArray[j] = temp;
   }
 
-  return array;
+  return newArray;
 };
 
 var randomInRange = function (min, max) {
@@ -53,9 +55,9 @@ var createOffer = function (avatarIndex) {
   var avatarNumber = avatarIndex < 10 ? '0' + avatarIndex : avatarIndex;
   var featuresMin = randomInRange(0, features.length - 1);
   var featuresMax = randomInRange(featuresMin + 1, features.length);
+  var randFeatures = randomizeArray(features);
 
-  randomizeArray(features);
-  offerFeatures = features.slice(featuresMin, featuresMax);
+  offerFeatures = randFeatures.slice(featuresMin, featuresMax);
 
   var author = {avatar: 'img/avatars/user' + avatarNumber + '.png'};
 
