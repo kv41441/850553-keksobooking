@@ -23,6 +23,8 @@ var mapPinListElement = document.querySelector('.map__pins');
 var newCard = document.querySelector('.map');
 var filtersContainer = document.querySelector('.map__filters-container');
 var mapPinMain = document.querySelector('.map__pin--main');
+var initialMainPinX = mapPinMain.offsetLeft;
+var initialMainPinY = mapPinMain.offsetTop;
 var addressInput = document.querySelector('#address');
 var houseTypeSelect = document.querySelector('#type');
 var timeSelect = document.querySelector('.ad-form__element--time');
@@ -31,10 +33,15 @@ var resetButton = document.querySelector('.ad-form__reset');
 
 
 var showInitialPinCoordinates = function () {
-  var initialMapPinX = Math.round(mapPinMain.offsetLeft + mapPinMain.clientWidth / 2);
-  var initialMapPinY = Math.round(mapPinMain.offsetTop + mapPinMain.clientHeight / 2);
+  var initialMapPinX = Math.round(initialMainPinX + mapPinMain.clientWidth / 2);
+  var initialMapPinY = Math.round(initialMainPinY + mapPinMain.clientHeight / 2);
 
   addressInput.value = initialMapPinX + ', ' + initialMapPinY;
+};
+
+var setInitialPinCoordinates = function () {
+  mapPinMain.style.left = initialMainPinX + 'px';
+  mapPinMain.style.top = initialMainPinY + 'px';
 };
 
 var closeCard = function () {
@@ -177,6 +184,22 @@ var hideMap = function () {
     }
   });
 };
+
+var resetForm = function () {
+  var offerForm = document.querySelector('.ad-form');
+  var capacity = document.querySelectorAll('#capacity option');
+
+  offerForm.reset();
+  capacity[2].selected = true;
+  showInitialPinCoordinates();
+  setInitialPinCoordinates();
+};
+
+var resetPage = function () {
+  hideMap();
+  resetForm();
+};
+
 
 var getRandomElement = function (array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -397,6 +420,8 @@ roomNumberSelect.addEventListener('change', function () {
   houseCapacityChange();
 });
 
-resetButton.addEventListener('click', function () {
-  hideMap();
+resetButton.addEventListener('click', function (evt) {
+  evt.preventDefault();
+
+  resetPage();
 });
