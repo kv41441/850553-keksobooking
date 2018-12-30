@@ -30,6 +30,7 @@ var houseTypeSelect = document.querySelector('#type');
 var timeSelect = document.querySelector('.ad-form__element--time');
 var roomNumberSelect = document.querySelector('#room_number');
 var resetButton = document.querySelector('.ad-form__reset');
+var map = document.querySelector('.map__overlay');
 
 
 var showInitialPinCoordinates = function () {
@@ -400,11 +401,78 @@ houseCapacityChange();
 
 var completeOffers = createCompleteOffer(8);
 
-mapPinMain.addEventListener('mouseup', function () {
-  showMap();
-  renderMapPin();
-  showPinCoodrinates();
+mapPinMain.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var dragged = false;
+  var firstMove = true;
+
+  var mapPinPseudoHeight = parseInt(window.getComputedStyle(mapPinMain, '::after').height, 10);
+  var COORD_X_MIN = 0;
+  var COORD_X_MAX = map.offsetWidth - mapPinMain.offsetWidth;
+  var COORD_Y_MIN = 170;
+  var COORD_Y_MAX = map.offsetHeight - mapPinMain.offsetHeight - mapPinPseudoHeight;
+
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    dragged = true;
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    if (firstMove) {
+      showMap();
+
+      firstMove = false;
+    }
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    if (mapPinMain.offsetLeft > COORD_X_MIN && mapPinMain.offsetLeft < COORD_X_MAX
+      && mapPinMain.offsetTop > COORD_Y_MIN && mapPinMain.offsetTop < COORD_Y_MAX) {
+      mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
+      mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
+    }
+
+    showPinCoodrinates();
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    if (dragged) {
+      var onClickPreventDefault = function (prevEvt) {
+        prevEvt.preventDefault();
+
+        mapPinMain.removeEventListener('click', onClickPreventDefault);
+      };
+      mapPinMain.addEventListener('click', onClickPreventDefault);
+    }
+
+    showMap();
+    renderMapPin();
+    showPinCoodrinates();
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 });
+
 
 houseTypeSelect.addEventListener('change', function () {
   setMinPrice();
