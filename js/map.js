@@ -73,7 +73,7 @@
     var fragment = document.createDocumentFragment();
 
     window.data.completeOffers.forEach(function (item, index) {
-      fragment.appendChild(window.pin.createMapPin(item, index));
+      fragment.appendChild(window.pin.create(item, index));
     });
 
     mapPinListElement.appendChild(fragment);
@@ -166,7 +166,7 @@
 
 
   window.map = {
-    hideMap: hideMap,
+    hide: hideMap,
     closeCard: closeCard,
     renderOfferInfo: renderOfferInfo
   };

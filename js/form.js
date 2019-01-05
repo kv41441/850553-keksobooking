@@ -133,7 +133,7 @@
   };
 
   var resetPage = function () {
-    window.map.hideMap();
+    window.map.hide();
     resetForm();
   };
 

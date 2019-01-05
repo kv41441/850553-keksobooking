@@ -25,6 +25,6 @@
 
 
   window.pin = {
-    createMapPin: createMapPin
+    create: createMapPin
   };
 })();
