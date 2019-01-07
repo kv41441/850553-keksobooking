@@ -6,7 +6,6 @@
   var mapPinListElement = document.querySelector('.map__pins');
   var map = document.querySelector('.map__overlay');
   var mapPinMain = document.querySelector('.map__pin--main');
-  var ESC_KEYCODE = 27;
 
 
   var showMap = function () {
@@ -63,7 +62,7 @@
     });
 
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+      if (evt.keyCode === window.const.escKeycode) {
         closeCard();
       }
     });
