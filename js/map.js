@@ -6,6 +6,7 @@
   var mapPinListElement = document.querySelector('.map__pins');
   var map = document.querySelector('.map__overlay');
   var mapPinMain = document.querySelector('.map__pin--main');
+  var firstMouseUp = false;
 
 
   var showMap = function () {
@@ -72,10 +73,20 @@
     var fragment = document.createDocumentFragment();
 
     window.data.completeOffers.forEach(function (item, index) {
-      fragment.appendChild(window.pin.create(item, index));
+      if (item.offer) {
+        fragment.appendChild(window.pin.create(item, index));
+      }
     });
 
     mapPinListElement.appendChild(fragment);
+  };
+
+  var getData = function (data) {
+    window.data.completeOffers = data;
+
+    showMap();
+    renderMapPin();
+    window.form.showPinCoodrinates();
   };
 
   mapPinMain.addEventListener('mousedown', function (evt) {
@@ -142,6 +153,12 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
+      if (!firstMouseUp) {
+        window.backend.download(getData, window.form.showErrorMessage);
+
+        firstMouseUp = true;
+      }
+
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
@@ -153,10 +170,6 @@
         };
         mapPinMain.addEventListener('click', onClickPreventDefault);
       }
-
-      showMap();
-      renderMapPin();
-      window.form.showPinCoodrinates();
     };
 
     document.addEventListener('mousemove', onMouseMove);
