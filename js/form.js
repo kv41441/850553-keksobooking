@@ -194,7 +194,7 @@
       document.removeEventListener('click', closeSuccessMessage);
       document.removeEventListener('keydown', closeSuccessMessage);
 
-      window.map.hide();
+      resetPage();
     }
   };
 
@@ -232,7 +232,11 @@
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
+    addressInput.disabled = false;
+
     var formData = new FormData(form);
+
+    addressInput.disabled = true;
 
     window.backend.upload(formData, showSuccessMessage, showErrorMessage);
   });

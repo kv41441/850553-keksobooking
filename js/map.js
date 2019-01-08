@@ -54,7 +54,7 @@
   var renderOfferInfo = function (index) {
     var fragment = document.createDocumentFragment();
 
-    fragment.appendChild(window.card.createOfferInfo(window.data.completeOffers[index]));
+    fragment.appendChild(window.card.create(window.data.completeOffers[index]));
 
     newCard.insertBefore(fragment, filtersContainer);
 

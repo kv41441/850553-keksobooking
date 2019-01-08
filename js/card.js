@@ -32,42 +32,87 @@
         break;
     }
 
-    title.textContent = completeOffer.offer.title;
-    address.textContent = completeOffer.offer.address;
-    price.textContent = completeOffer.offer.price + '₽/ночь';
-    type.textContent = houseType;
-    rooms.textContent = completeOffer.offer.rooms +
-      ' комнаты для ' + completeOffer.offer.guests + ' гостей';
-    time.textContent = 'Заезд после ' +
-      completeOffer.offer.checkin + ', выезд до ' + completeOffer.offer.checkout;
-
-    features.textContent = '';
-    completeOffer.offer.features.forEach(function (item) {
-      var featureSelector = 'popup__feature--' + item;
-      var cardFeatureElement = card.querySelector('.popup__feature').cloneNode(true);
-
-      cardFeatureElement.classList.remove('popup__feature--wifi');
-      cardFeatureElement.classList.add(featureSelector);
-      cardElement.querySelector('.popup__features').appendChild(cardFeatureElement);
-    });
-
-    description.textContent = completeOffer.offer.description;
-
-    photo.src = completeOffer.offer.photos[0];
-    for (var i = 1; i < completeOffer.offer.photos.length; i++) {
-      var cardImageElement = card.querySelector('.popup__photo').cloneNode(true);
-
-      cardImageElement.src = completeOffer.offer.photos[i];
-      cardElement.querySelector('.popup__photos').appendChild(cardImageElement);
+    if (completeOffer.offer.title) {
+      title.textContent = completeOffer.offer.title;
+    } else {
+      title.style.display = 'none';
     }
 
-    avatar.src = completeOffer.author.avatar;
+    if (completeOffer.offer.address) {
+      address.textContent = completeOffer.offer.address;
+    } else {
+      address.style.display = 'none';
+    }
+
+    if (completeOffer.offer.price) {
+      price.textContent = completeOffer.offer.price + '₽/ночь';
+    } else {
+      price.style.display = 'none';
+    }
+
+    if (completeOffer.offer.type) {
+      type.textContent = houseType;
+    } else {
+      type.style.display = 'none';
+    }
+
+    if (completeOffer.offer.rooms && completeOffer.offer.guests) {
+      rooms.textContent = completeOffer.offer.rooms +
+      ' комнаты для ' + completeOffer.offer.guests + ' гостей';
+    } else {
+      rooms.style.display = 'none';
+    }
+
+    if (completeOffer.offer.checkin && completeOffer.offer.checkout) {
+      time.textContent = 'Заезд после ' +
+      completeOffer.offer.checkin + ', выезд до ' + completeOffer.offer.checkout;
+    } else {
+      time.style.display = 'none';
+    }
+
+    if (completeOffer.offer.features) {
+      features.textContent = '';
+      completeOffer.offer.features.forEach(function (item) {
+        var featureSelector = 'popup__feature--' + item;
+        var cardFeatureElement = card.querySelector('.popup__feature').cloneNode(true);
+
+        cardFeatureElement.classList.remove('popup__feature--wifi');
+        cardFeatureElement.classList.add(featureSelector);
+        cardElement.querySelector('.popup__features').appendChild(cardFeatureElement);
+      });
+    } else {
+      features.style.display = 'none';
+    }
+
+    if (completeOffer.offer.description) {
+      description.textContent = completeOffer.offer.description;
+    } else {
+      description.style.display = 'none';
+    }
+
+    if (completeOffer.offer.photos) {
+      photo.src = completeOffer.offer.photos[0];
+      for (var i = 1; i < completeOffer.offer.photos.length; i++) {
+        var cardImageElement = card.querySelector('.popup__photo').cloneNode(true);
+
+        cardImageElement.src = completeOffer.offer.photos[i];
+        cardElement.querySelector('.popup__photos').appendChild(cardImageElement);
+      }
+    } else {
+      photo.style.display = 'none';
+    }
+
+    if (completeOffer.author.avatar) {
+      avatar.src = completeOffer.author.avatar;
+    } else {
+      avatar.style.display = 'none';
+    }
 
     return cardElement;
   };
 
 
   window.card = {
-    createOfferInfo: createOfferInfo
+    create: createOfferInfo
   };
 })();
