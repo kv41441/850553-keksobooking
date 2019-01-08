@@ -6,7 +6,6 @@
   var mapPinListElement = document.querySelector('.map__pins');
   var map = document.querySelector('.map__overlay');
   var mapPinMain = document.querySelector('.map__pin--main');
-  var ESC_KEYCODE = 27;
 
 
   var showMap = function () {
@@ -54,7 +53,7 @@
   var renderOfferInfo = function (index) {
     var fragment = document.createDocumentFragment();
 
-    fragment.appendChild(window.card.createOfferInfo(window.data.completeOffers[index]));
+    fragment.appendChild(window.card.create(window.data.completeOffers[index]));
 
     newCard.insertBefore(fragment, filtersContainer);
 
@@ -63,7 +62,7 @@
     });
 
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+      if (evt.keyCode === window.const.escKeycode) {
         closeCard();
       }
     });
@@ -73,10 +72,20 @@
     var fragment = document.createDocumentFragment();
 
     window.data.completeOffers.forEach(function (item, index) {
-      fragment.appendChild(window.pin.create(item, index));
+      if (item.offer) {
+        fragment.appendChild(window.pin.create(item, index));
+      }
     });
 
     mapPinListElement.appendChild(fragment);
+  };
+
+  var getData = function (data) {
+    window.data.completeOffers = data;
+
+    showMap();
+    renderMapPin();
+    window.form.showPinCoodrinates();
   };
 
   mapPinMain.addEventListener('mousedown', function (evt) {
@@ -143,6 +152,12 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
+      if (!window.map.firstMouseUp) {
+        window.backend.download(getData, window.form.showErrorMessage);
+
+        window.map.firstMouseUp = true;
+      }
+
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
@@ -154,10 +169,6 @@
         };
         mapPinMain.addEventListener('click', onClickPreventDefault);
       }
-
-      showMap();
-      renderMapPin();
-      window.form.showPinCoodrinates();
     };
 
     document.addEventListener('mousemove', onMouseMove);
@@ -168,6 +179,7 @@
   window.map = {
     hide: hideMap,
     closeCard: closeCard,
-    renderOfferInfo: renderOfferInfo
+    renderOfferInfo: renderOfferInfo,
+    firstMouseUp: false
   };
 })();

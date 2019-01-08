@@ -9,6 +9,8 @@
   var timeSelect = document.querySelector('.ad-form__element--time');
   var roomNumberSelect = document.querySelector('#room_number');
   var resetButton = document.querySelector('.ad-form__reset');
+  var main = document.querySelector('main');
+  var form = document.querySelector('.ad-form');
 
 
   var showInitialPinCoordinates = function () {
@@ -123,10 +125,9 @@
   };
 
   var resetForm = function () {
-    var offerForm = document.querySelector('.ad-form');
     var capacity = document.querySelectorAll('#capacity option');
 
-    offerForm.reset();
+    form.reset();
     capacity[2].selected = true;
     showInitialPinCoordinates();
     setInitialPinCoordinates();
@@ -134,6 +135,8 @@
 
   var resetPage = function () {
     window.map.hide();
+    window.map.firstMouseUp = false;
+    window.map.closeCard();
     resetForm();
   };
 
@@ -170,7 +173,83 @@
   });
 
 
+  var showSuccessMessage = function () {
+    var successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+    var newSuccessMessage = successMessageTemplate.cloneNode(true);
+
+    main.appendChild(newSuccessMessage);
+
+    document.addEventListener('click', closeSuccessMessage);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.const.escKeycode) {
+        closeSuccessMessage();
+      }
+    });
+  };
+
+  var closeSuccessMessage = function () {
+    var successMsg = document.querySelector('.success');
+
+    if (successMsg) {
+      main.removeChild(successMsg);
+
+      document.removeEventListener('click', closeSuccessMessage);
+      document.removeEventListener('keydown', closeSuccessMessage);
+
+      resetPage();
+    }
+  };
+
+  var showErrorMessage = function (messageText) {
+    var errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+    var newErrorMessage = errorMessageTemplate.cloneNode(true);
+    var errorMessageButton = errorMessageTemplate.querySelector('.error__button');
+    var errorMessageText = errorMessageTemplate.querySelector('.error__message');
+
+    errorMessageText.textContent = messageText;
+
+    main.appendChild(newErrorMessage);
+
+    document.addEventListener('click', closeErrorMessage);
+    errorMessageButton.addEventListener('click', function () {
+      resetPage();
+      closeErrorMessage();
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.const.escKeycode) {
+        closeErrorMessage();
+      }
+    });
+  };
+
+  var closeErrorMessage = function () {
+    var errorMsg = document.querySelector('.error');
+
+    if (errorMsg) {
+      main.removeChild(errorMsg);
+
+      document.removeEventListener('click', closeErrorMessage);
+      errorMsg.removeEventListener('keydown', closeErrorMessage);
+    }
+  };
+
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+
+    addressInput.disabled = false;
+
+    var formData = new FormData(form);
+
+    addressInput.disabled = true;
+
+    window.backend.upload(formData, showSuccessMessage, showErrorMessage);
+  });
+
+
   window.form = {
-    showPinCoodrinates: showPinCoodrinates
+    showPinCoodrinates: showPinCoodrinates,
+    showSuccessMessage: showSuccessMessage,
+    showErrorMessage: showErrorMessage
   };
 })();
