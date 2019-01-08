@@ -135,6 +135,8 @@
 
   var resetPage = function () {
     window.map.hide();
+    window.map.firstMouseUp = false;
+    window.map.closeCard();
     resetForm();
   };
 
@@ -209,7 +211,10 @@
     main.appendChild(newErrorMessage);
 
     document.addEventListener('click', closeErrorMessage);
-    errorMessageButton.addEventListener('click', closeErrorMessage);
+    errorMessageButton.addEventListener('click', function () {
+      resetPage();
+      closeErrorMessage();
+    });
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.const.escKeycode) {
         closeErrorMessage();

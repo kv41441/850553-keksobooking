@@ -56,7 +56,8 @@
       type.style.display = 'none';
     }
 
-    if (completeOffer.offer.rooms && completeOffer.offer.guests) {
+    if ((completeOffer.offer.rooms || completeOffer.offer.rooms === 0) &&
+    (completeOffer.offer.guests || completeOffer.offer.guests === 0)) {
       rooms.textContent = completeOffer.offer.rooms +
       ' комнаты для ' + completeOffer.offer.guests + ' гостей';
     } else {
@@ -70,7 +71,7 @@
       time.style.display = 'none';
     }
 
-    if (completeOffer.offer.features) {
+    if (completeOffer.offer.features.length > 0) {
       features.textContent = '';
       completeOffer.offer.features.forEach(function (item) {
         var featureSelector = 'popup__feature--' + item;
@@ -90,7 +91,7 @@
       description.style.display = 'none';
     }
 
-    if (completeOffer.offer.photos) {
+    if (completeOffer.offer.photos.length > 0) {
       photo.src = completeOffer.offer.photos[0];
       for (var i = 1; i < completeOffer.offer.photos.length; i++) {
         var cardImageElement = card.querySelector('.popup__photo').cloneNode(true);

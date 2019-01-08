@@ -6,7 +6,6 @@
   var mapPinListElement = document.querySelector('.map__pins');
   var map = document.querySelector('.map__overlay');
   var mapPinMain = document.querySelector('.map__pin--main');
-  var firstMouseUp = false;
 
 
   var showMap = function () {
@@ -153,10 +152,10 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      if (!firstMouseUp) {
+      if (!window.map.firstMouseUp) {
         window.backend.download(getData, window.form.showErrorMessage);
 
-        firstMouseUp = true;
+        window.map.firstMouseUp = true;
       }
 
       document.removeEventListener('mousemove', onMouseMove);
@@ -180,6 +179,7 @@
   window.map = {
     hide: hideMap,
     closeCard: closeCard,
-    renderOfferInfo: renderOfferInfo
+    renderOfferInfo: renderOfferInfo,
+    firstMouseUp: false
   };
 })();
