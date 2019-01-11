@@ -181,7 +181,7 @@
 
     document.addEventListener('click', closeSuccessMessage);
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.const.escKeycode) {
+      if (evt.keyCode === window.Const.ESC_KEYCODE) {
         closeSuccessMessage();
       }
     });
@@ -216,7 +216,7 @@
       closeErrorMessage();
     });
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.const.escKeycode) {
+      if (evt.keyCode === window.Const.ESC_KEYCODE) {
         closeErrorMessage();
       }
     });
