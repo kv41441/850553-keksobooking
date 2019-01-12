@@ -19,10 +19,19 @@
     });
   };
 
-  var hideMap = function () {
-    var mapFilters = document.querySelectorAll('.map__filters select, .map__filters fieldset, .ad-form fieldset');
+  var deletePins = function () {
     var mapPins = mapPinListElement.querySelectorAll('.map__pin');
     var initialMapPin = mapPinListElement.querySelector('.map__pin--main');
+
+    mapPins.forEach(function (item) {
+      if (item !== initialMapPin) {
+        mapPinListElement.removeChild(item);
+      }
+    });
+  };
+
+  var hideMap = function () {
+    var mapFilters = document.querySelectorAll('.map__filters select, .map__filters fieldset, .ad-form fieldset');
 
     document.querySelector('.map').classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
@@ -31,11 +40,7 @@
       item.disabled = true;
     });
 
-    mapPins.forEach(function (item) {
-      if (item !== initialMapPin) {
-        mapPinListElement.removeChild(item);
-      }
-    });
+    deletePins();
   };
 
   var closeCard = function () {
@@ -50,10 +55,10 @@
     });
   };
 
-  var renderOfferInfo = function (index) {
+  var renderOfferInfo = function (data) {
     var fragment = document.createDocumentFragment();
 
-    fragment.appendChild(window.card.create(window.data.completeOffers[index]));
+    fragment.appendChild(window.card.create(data));
 
     newCard.insertBefore(fragment, filtersContainer);
 
@@ -62,18 +67,20 @@
     });
 
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.const.escKeycode) {
+      if (evt.keyCode === window.Const.ESC_KEYCODE) {
         closeCard();
       }
     });
   };
 
-  var renderMapPin = function () {
+  var renderMapPin = function (data) {
     var fragment = document.createDocumentFragment();
 
-    window.data.completeOffers.forEach(function (item, index) {
+    var filteredData = window.filter.setOffersLimit(data, window.filter.OFFERS_LIMIT);
+
+    filteredData.forEach(function (item) {
       if (item.offer) {
-        fragment.appendChild(window.pin.create(item, index));
+        fragment.appendChild(window.pin.create(item));
       }
     });
 
@@ -84,7 +91,7 @@
     window.data.completeOffers = data;
 
     showMap();
-    renderMapPin();
+    renderMapPin(window.data.completeOffers);
     window.form.showPinCoodrinates();
   };
 
@@ -93,12 +100,10 @@
 
     var dragged = false;
     var firstMove = true;
-
     var COORD_X_MIN = 0;
     var COORD_X_MAX = map.offsetWidth - mapPinMain.offsetWidth;
     var COORD_Y_MIN = 130;
     var COORD_Y_MAX = 630;
-
 
     var startCoords = {
       x: evt.clientX,
@@ -180,6 +185,8 @@
     hide: hideMap,
     closeCard: closeCard,
     renderOfferInfo: renderOfferInfo,
+    renderPin: renderMapPin,
+    deletePins: deletePins,
     firstMouseUp: false
   };
 })();

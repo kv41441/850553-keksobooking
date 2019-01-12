@@ -3,6 +3,6 @@
 var ESC_KEYCODE = 27;
 
 
-window.const = {
-  escKeycode: ESC_KEYCODE
+window.Const = {
+  ESC_KEYCODE: ESC_KEYCODE
 };

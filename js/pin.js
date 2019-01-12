@@ -1,9 +1,10 @@
 'use strict';
 
 (function () {
-  var createMapPin = function (completeOffer, index) {
+  var createMapPin = function (completeOffer) {
     var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
     var mapPinElement = mapPin.cloneNode(true);
+
 
     mapPinElement.style.left = (completeOffer.location.y -
       document.querySelector('.map__pin').clientWidth / 2) + 'px';
@@ -17,7 +18,7 @@
 
       mapPinElement.classList.add('map__pin--active');
 
-      window.map.renderOfferInfo(index);
+      window.map.renderOfferInfo(completeOffer);
     });
 
     return mapPinElement;

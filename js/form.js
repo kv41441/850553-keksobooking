@@ -36,14 +36,17 @@
             priceInput.placeholder = '0';
             priceInput.min = 0;
             break;
+
           case 'flat':
             priceInput.placeholder = '1000';
             priceInput.min = 1000;
             break;
+
           case 'house':
             priceInput.placeholder = '5000';
             priceInput.min = 5000;
             break;
+
           case 'palace':
             priceInput.placeholder = '10000';
             priceInput.min = 10000;
@@ -92,6 +95,7 @@
               }
             });
             break;
+
           case '2':
             capacity.forEach(function (capItem) {
               if (capItem.value !== '1' && capItem.value !== '2') {
@@ -101,6 +105,7 @@
               }
             });
             break;
+
           case '3':
             capacity.forEach(function (capItem) {
               if (capItem.value === '0') {
@@ -110,6 +115,7 @@
               }
             });
             break;
+
           case '100':
             capacity.forEach(function (capItem) {
               if (capItem.value !== '0') {
@@ -181,7 +187,7 @@
 
     document.addEventListener('click', closeSuccessMessage);
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.const.escKeycode) {
+      if (evt.keyCode === window.Const.ESC_KEYCODE) {
         closeSuccessMessage();
       }
     });
@@ -216,7 +222,7 @@
       closeErrorMessage();
     });
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.const.escKeycode) {
+      if (evt.keyCode === window.Const.ESC_KEYCODE) {
         closeErrorMessage();
       }
     });

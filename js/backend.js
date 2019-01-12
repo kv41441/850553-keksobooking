@@ -1,13 +1,14 @@
 'use strict';
 
-var UPLOAD_URL = 'https://js.dump.academy/keksobooking';
-var DOWNLOAD_URL = 'https://js.dump.academy/keksobooking/data';
-
-
 (function () {
+  var UPLOAD_URL = 'https://js.dump.academy/keksobooking';
+  var DOWNLOAD_URL = 'https://js.dump.academy/keksobooking/data';
+
+
   var xhrequest = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     var STATUS_OK = 200;
+    var TIMEOUT_TIME = 10000;
 
     xhr.responseType = 'json';
 
@@ -27,7 +28,7 @@ var DOWNLOAD_URL = 'https://js.dump.academy/keksobooking/data';
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000;
+    xhr.timeout = TIMEOUT_TIME;
 
     return xhr;
   };
