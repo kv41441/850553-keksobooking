@@ -5,6 +5,7 @@
     var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
     var mapPinElement = mapPin.cloneNode(true);
 
+
     mapPinElement.style.left = (completeOffer.location.y -
       document.querySelector('.map__pin').clientWidth / 2) + 'px';
     mapPinElement.style.top = (completeOffer.location.x -

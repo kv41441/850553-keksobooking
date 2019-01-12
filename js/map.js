@@ -100,12 +100,10 @@
 
     var dragged = false;
     var firstMove = true;
-
     var COORD_X_MIN = 0;
     var COORD_X_MAX = map.offsetWidth - mapPinMain.offsetWidth;
     var COORD_Y_MIN = 130;
     var COORD_Y_MAX = 630;
-
 
     var startCoords = {
       x: evt.clientX,
