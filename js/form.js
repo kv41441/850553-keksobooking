@@ -140,6 +140,22 @@
   };
 
   var resetPage = function () {
+    var previewImage = document.querySelector('.ad-form-header__preview img');
+    var images = document.querySelectorAll('.ad-form__photo');
+    var imagesContainer = document.querySelector('.ad-form__photo-container');
+
+    previewImage.src = 'img/muffin-grey.svg';
+
+    images.forEach(function (item) {
+      item.remove();
+    });
+
+    var imageContainer = document.createElement('div');
+    imageContainer.classList.add('ad-form__photo');
+    imagesContainer.appendChild(imageContainer);
+
+    window.images.firstChange = true;
+
     window.map.hide();
     window.map.firstMouseUp = false;
     window.map.closeCard();
