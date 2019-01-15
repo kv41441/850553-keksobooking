@@ -4,14 +4,16 @@
   var createMapPin = function (completeOffer) {
     var mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
     var mapPinElement = mapPin.cloneNode(true);
+    var existingMapPinElement = document.querySelector('.map__pin');
+    var mapPinElementImage = mapPinElement.querySelector('img');
 
 
     mapPinElement.style.left = (completeOffer.location.y -
-      document.querySelector('.map__pin').clientWidth / 2) + 'px';
+      existingMapPinElement.clientWidth / 2) + 'px';
     mapPinElement.style.top = (completeOffer.location.x -
-      document.querySelector('.map__pin').clientHeight) + 'px';
-    mapPinElement.querySelector('img').src = completeOffer.author.avatar;
-    mapPinElement.querySelector('img').alt = completeOffer.offer.title;
+      existingMapPinElement.clientHeight) + 'px';
+    mapPinElementImage.src = completeOffer.author.avatar;
+    mapPinElementImage.alt = completeOffer.offer.title;
 
     mapPinElement.addEventListener('click', function () {
       window.map.closeCard();

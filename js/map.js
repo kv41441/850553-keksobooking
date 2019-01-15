@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var newCard = document.querySelector('.map');
+  var mapBlock = document.querySelector('.map');
   var filtersContainer = document.querySelector('.map__filters-container');
   var mapPinListElement = document.querySelector('.map__pins');
   var map = document.querySelector('.map__overlay');
@@ -11,7 +11,7 @@
   var showMap = function () {
     var mapFilters = document.querySelectorAll('.map__filters select, .map__filters fieldset, .ad-form fieldset');
 
-    document.querySelector('.map').classList.remove('map--faded');
+    mapBlock.classList.remove('map--faded');
     document.querySelector('.ad-form').classList.remove('ad-form--disabled');
 
     mapFilters.forEach(function (item) {
@@ -33,7 +33,7 @@
   var hideMap = function () {
     var mapFilters = document.querySelectorAll('.map__filters select, .map__filters fieldset, .ad-form fieldset');
 
-    document.querySelector('.map').classList.add('map--faded');
+    mapBlock.classList.add('map--faded');
     document.querySelector('.ad-form').classList.add('ad-form--disabled');
 
     mapFilters.forEach(function (item) {
@@ -45,9 +45,10 @@
 
   var closeCard = function () {
     var mapPinList = mapPinListElement.querySelectorAll('.map__pin');
+    var mapCard = document.querySelector('.map .map__card');
 
-    if (document.querySelector('.map .map__card')) {
-      document.querySelector('.map').removeChild(document.querySelector('.map .map__card'));
+    if (mapCard) {
+      mapBlock.removeChild(mapCard);
     }
 
     mapPinList.forEach(function (item) {
@@ -56,11 +57,9 @@
   };
 
   var renderOfferInfo = function (data) {
-    var fragment = document.createDocumentFragment();
+    var card = window.card.create(data);
 
-    fragment.appendChild(window.card.create(data));
-
-    newCard.insertBefore(fragment, filtersContainer);
+    mapBlock.insertBefore(card, filtersContainer);
 
     document.querySelector('.map .map__card .popup__close').addEventListener('click', function () {
       closeCard();

@@ -3,12 +3,11 @@
 (function () {
   var UPLOAD_URL = 'https://js.dump.academy/keksobooking';
   var DOWNLOAD_URL = 'https://js.dump.academy/keksobooking/data';
-
+  var STATUS_OK = 200;
+  var TIMEOUT_TIME = 10000;
 
   var xhrequest = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    var STATUS_OK = 200;
-    var TIMEOUT_TIME = 10000;
 
     xhr.responseType = 'json';
 
