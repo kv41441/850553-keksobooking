@@ -1,21 +1,8 @@
 'use strict';
 
 (function () {
-  var createOfferInfo = function (completeOffer) {
-    var card = document.querySelector('#card').content.querySelector('.map__card');
-    var cardElement = card.cloneNode(true);
+  var getHouseType = function (completeOffer) {
     var houseType = '';
-    var avatar = cardElement.querySelector('.popup__avatar');
-    var title = cardElement.querySelector('.popup__title');
-    var address = cardElement.querySelector('.popup__text--address');
-    var price = cardElement.querySelector('.popup__text--price');
-    var type = cardElement.querySelector('.popup__type');
-    var rooms = cardElement.querySelector('.popup__text--capacity');
-    var time = cardElement.querySelector('.popup__text--time');
-    var features = cardElement.querySelector('.popup__features');
-    var description = cardElement.querySelector('.popup__description');
-    var photo = cardElement.querySelector('.popup__photo');
-
 
     switch (completeOffer.offer.type) {
       case 'palace':
@@ -31,6 +18,51 @@
         houseType = 'Бунгало';
         break;
     }
+
+    return houseType;
+  };
+
+  var getFeatures = function (features, card, cardElement, completeOffer) {
+    var cardFeature = card.querySelector('.popup__feature');
+    var cardFeaturesElement = cardElement.querySelector('.popup__features');
+
+    features.textContent = '';
+    completeOffer.offer.features.forEach(function (item) {
+      var featureSelector = 'popup__feature--' + item;
+      var cardFeatureElement = cardFeature.cloneNode(true);
+
+      cardFeatureElement.classList.remove('popup__feature--wifi');
+      cardFeatureElement.classList.add(featureSelector);
+      cardFeaturesElement.appendChild(cardFeatureElement);
+    });
+  };
+
+  var getPhotos = function (photo, card, cardElement, completeOffer) {
+    var cardImage = card.querySelector('.popup__photo');
+    var cardImagesElement = cardElement.querySelector('.popup__photos');
+
+    photo.src = completeOffer.offer.photos[0];
+    for (var i = 1; i < completeOffer.offer.photos.length; i++) {
+      var cardImageElement = cardImage.cloneNode(true);
+
+      cardImageElement.src = completeOffer.offer.photos[i];
+      cardImagesElement.appendChild(cardImageElement);
+    }
+  };
+
+  var createOfferInfo = function (completeOffer) {
+    var card = document.querySelector('#card').content.querySelector('.map__card');
+    var cardElement = card.cloneNode(true);
+    var avatar = cardElement.querySelector('.popup__avatar');
+    var title = cardElement.querySelector('.popup__title');
+    var address = cardElement.querySelector('.popup__text--address');
+    var price = cardElement.querySelector('.popup__text--price');
+    var type = cardElement.querySelector('.popup__type');
+    var rooms = cardElement.querySelector('.popup__text--capacity');
+    var time = cardElement.querySelector('.popup__text--time');
+    var features = cardElement.querySelector('.popup__features');
+    var description = cardElement.querySelector('.popup__description');
+    var photo = cardElement.querySelector('.popup__photo');
 
     if (completeOffer.offer.title) {
       title.textContent = completeOffer.offer.title;
@@ -51,7 +83,7 @@
     }
 
     if (completeOffer.offer.type) {
-      type.textContent = houseType;
+      type.textContent = getHouseType(completeOffer);
     } else {
       type.style.display = 'none';
     }
@@ -71,15 +103,7 @@
     }
 
     if (completeOffer.offer.features.length) {
-      features.textContent = '';
-      completeOffer.offer.features.forEach(function (item) {
-        var featureSelector = 'popup__feature--' + item;
-        var cardFeatureElement = card.querySelector('.popup__feature').cloneNode(true);
-
-        cardFeatureElement.classList.remove('popup__feature--wifi');
-        cardFeatureElement.classList.add(featureSelector);
-        cardElement.querySelector('.popup__features').appendChild(cardFeatureElement);
-      });
+      getFeatures(features, card, cardElement, completeOffer);
     } else {
       features.style.display = 'none';
     }
@@ -91,13 +115,7 @@
     }
 
     if (completeOffer.offer.photos.length > 0) {
-      photo.src = completeOffer.offer.photos[0];
-      for (var i = 1; i < completeOffer.offer.photos.length; i++) {
-        var cardImageElement = card.querySelector('.popup__photo').cloneNode(true);
-
-        cardImageElement.src = completeOffer.offer.photos[i];
-        cardElement.querySelector('.popup__photos').appendChild(cardImageElement);
-      }
+      getPhotos(photo, card, cardElement, completeOffer);
     } else {
       photo.style.display = 'none';
     }

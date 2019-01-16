@@ -11,6 +11,15 @@
   var resetButton = document.querySelector('.ad-form__reset');
   var main = document.querySelector('main');
   var form = document.querySelector('.ad-form');
+  var priceInput = document.querySelector('#price');
+  var houseType = document.querySelectorAll('#type option');
+  var timeIn = document.querySelectorAll('#timein option');
+  var timeOut = document.querySelectorAll('#timeout option');
+  var roomNumber = document.querySelectorAll('#room_number option');
+  var capacity = document.querySelectorAll('#capacity option');
+  var previewImage = document.querySelector('.ad-form-header__preview img');
+  var images = document.querySelectorAll('.ad-form__photo');
+  var imagesContainer = document.querySelector('.ad-form__photo-container');
 
 
   var showInitialPinCoordinates = function () {
@@ -26,9 +35,6 @@
   };
 
   var setMinPrice = function () {
-    var priceInput = document.querySelector('#price');
-    var houseType = document.querySelectorAll('#type option');
-
     houseType.forEach(function (item) {
       if (item.selected) {
         switch (item.value) {
@@ -57,9 +63,6 @@
   };
 
   var timeSync = function (target) {
-    var timeIn = document.querySelectorAll('#timein option');
-    var timeOut = document.querySelectorAll('#timeout option');
-
     if (target === 'timein') {
       timeIn.forEach(function (item, i) {
         if (item.selected) {
@@ -76,9 +79,6 @@
   };
 
   var houseCapacityChange = function () {
-    var roomNumber = document.querySelectorAll('#room_number option');
-    var capacity = document.querySelectorAll('#capacity option');
-
     capacity.forEach(function (capItem) {
       capItem.disabled = false;
     });
@@ -131,8 +131,6 @@
   };
 
   var resetForm = function () {
-    var capacity = document.querySelectorAll('#capacity option');
-
     form.reset();
     capacity[2].selected = true;
     showInitialPinCoordinates();
@@ -140,10 +138,6 @@
   };
 
   var resetPage = function () {
-    var previewImage = document.querySelector('.ad-form-header__preview img');
-    var images = document.querySelectorAll('.ad-form__photo');
-    var imagesContainer = document.querySelector('.ad-form__photo-container');
-
     previewImage.src = 'img/muffin-grey.svg';
 
     images.forEach(function (item) {
@@ -259,11 +253,7 @@
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
 
-    addressInput.disabled = false;
-
     var formData = new FormData(form);
-
-    addressInput.disabled = true;
 
     window.backend.upload(formData, showSuccessMessage, showErrorMessage);
   });
